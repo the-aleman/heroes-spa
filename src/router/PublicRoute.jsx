@@ -7,5 +7,5 @@ export const PublicRoute = ({ children }) => {
 
   return (!logged)
     ? children
-    : <Navigate to='/' />
+    : <Navigate to='/marvel' />
 }

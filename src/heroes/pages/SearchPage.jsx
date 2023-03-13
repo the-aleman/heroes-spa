@@ -1,14 +1,21 @@
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useForm } from '../../hooks/useForm'
 import { HeroCard } from '../components'
-import queryString from 'query-string'
 import { getHeroesByName } from '../helpers'
+import { useEffect } from 'react'
 
 export const SearchPage = () => {
   const navigate = useNavigate()
-  const location = useLocation()
+  // const location = useLocation()
+  const [searchParams] = useSearchParams()
 
-  const { q = '' } = queryString.parse(location.search)
+  // const { q = '' } = queryString.parse(location.search)
+  const { q = '' } = Object.fromEntries([...searchParams])
+
+  useEffect(() => {
+    // console.log(Object.fromEntries([...searchParams]));
+  }, [searchParams])
+
   const heroes = getHeroesByName(q)
 
   const showSearch = (q.length === 0)
@@ -36,7 +43,7 @@ export const SearchPage = () => {
           <h4>Searching</h4>
           <hr />
 
-          <form onSubmit={onSearchSubmit}>
+          <form onSubmit={onSearchSubmit} aria-label='form'>
             <input
               type='text'
               placeholder='Encuentra tu heroe'
@@ -68,6 +75,7 @@ export const SearchPage = () => {
           </div>
 
           <div
+            aria-label='alert-danger'
             className='alert alert-danger animate__animated animate__fadeIn'
             style={{ display: showError ? '' : 'none' }}
           >
